@@ -1,0 +1,15 @@
+﻿Alunos: Pedro Teixeira Alves e Diuliano Vargas
+Turma: 3K
+
+
+Possíveis funcionalidades do sistema:
+* cadastrar um cliente;
+* logar com o cliente;
+* adicionar/remover/editar itens do carrinho;
+* realizar um pedido;
+* logar com vendedor;
+* finalizar com o vendedor os pedidos.
+
+
+Sequência de interação do usuário:
+O usuário irá se cadastrar/logar, na sequência montar o seu pedido, e por fim o vendedor vai logar e finalizar os pedidos mais recentes.

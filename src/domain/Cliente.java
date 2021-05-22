@@ -1,5 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Cliente {
 
     private String nome;
@@ -8,6 +11,8 @@ public class Cliente {
 
     private String senha;
 
+    private List<Pedido> listaPedidoCliente;
+
     public Cliente() {
     }
 
@@ -15,6 +20,7 @@ public class Cliente {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
+        this.listaPedidoCliente = new ArrayList<>();
     }
 
     public String getNome() {
@@ -39,5 +45,13 @@ public class Cliente {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    public List<Pedido> getListaPedidoCliente() {
+        return listaPedidoCliente;
+    }
+
+    public void setListaPedidoCliente(List<Pedido> listaPedidoCliente) {
+        this.listaPedidoCliente = listaPedidoCliente;
     }
 }

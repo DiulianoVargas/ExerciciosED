@@ -6,13 +6,15 @@ public class Pedido {
 
     private Cliente cliente;
 
-    private Vendedor vendedor;
+    private Companhia companhia;
 
     private List<ItemPedido> listaItemPedido;
 
-    public Pedido(Cliente cliente, Vendedor vendedor, List<ItemPedido> listaItemPedido) {
+    private Double valorTotal;
+
+    public Pedido(Cliente cliente, Companhia companhia, List<ItemPedido> listaItemPedido) {
         this.cliente = cliente;
-        this.vendedor = vendedor;
+        this.companhia = companhia;
         this.listaItemPedido = listaItemPedido;
     }
 
@@ -27,12 +29,12 @@ public class Pedido {
         this.cliente = cliente;
     }
 
-    public Vendedor getVendedor() {
-        return vendedor;
+    public Companhia getVendedor() {
+        return companhia;
     }
 
-    public void setVendedor(Vendedor vendedor) {
-        this.vendedor = vendedor;
+    public void setVendedor(Companhia companhia) {
+        this.companhia = companhia;
     }
 
     public List<ItemPedido> getListaItemPedido() {
