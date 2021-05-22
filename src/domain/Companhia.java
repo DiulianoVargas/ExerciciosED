@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.List;
+import java.util.LinkedList;
 
 public class Companhia {
 
@@ -12,7 +12,7 @@ public class Companhia {
 
     private String senha;
 
-    private List<Pedido> listaPedidosCompanhia;
+    private LinkedList<Pedido> listaPedidosCompanhia;
 
     public Companhia() {
     }
@@ -22,7 +22,7 @@ public class Companhia {
         this.cnpj = cnpj;
         this.login = login;
         this.senha = senha;
-        this.listaPedidosCompanhia = listaPedidosCompanhia;
+        this.listaPedidosCompanhia = new LinkedList<>();
     }
 
     public String getNome() {
@@ -57,11 +57,11 @@ public class Companhia {
         this.senha = senha;
     }
 
-    public List<Pedido> getListaPedidosCompanhia() {
+    public LinkedList<Pedido> getListaPedidosCompanhia() {
         return listaPedidosCompanhia;
     }
 
-    public void setListaPedidosCompanhia(List<Pedido> listaPedidosCompanhia) {
+    public void setListaPedidosCompanhia(LinkedList<Pedido> listaPedidosCompanhia) {
         this.listaPedidosCompanhia = listaPedidosCompanhia;
     }
 }
