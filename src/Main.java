@@ -200,12 +200,14 @@ public class Main {
     }
 
     private static Optional<Cliente> clienteLogado() {
-        System.out.println("---------------------------------------");
-        System.out.println("            Logar em Cliente           ");
-        System.out.println("\n\nE-mail: ");
+        System.out.println("|---------------------------------------|");
+        System.out.println("|            Logar em Cliente           |");
+        System.out.println("|---------------------------------------|");
+        System.out.print("|E-mail: ");
         String email = scanner.next();
-        System.out.println("Senha: ");
+        System.out.print("|Senha: ");
         String senha = scanner.next();
+        System.out.println("|---------------------------------------|");
 
         return listaClientes.stream()
                 .filter(cliente -> cliente.getEmail().equals(email) && cliente.getSenha().equals(senha))
@@ -213,11 +215,13 @@ public class Main {
     }
 
     private static void menuDoCliente() {
-        System.out.println("---------------------------------------");
-        System.out.println("     Bem Vindo ao menu do Cliente      ");
-        System.out.println("\n\n1 - Fazer um Pedido");
-        System.out.println("2 - Seus pedidos");
-        System.out.println("3 - Sair");
+        System.out.println("|---------------------------------------|");
+        System.out.println("|     Bem Vindo ao menu do Cliente      |");
+        System.out.println("|---------------------------------------|");
+        System.out.println("|1 - Fazer um Pedido");
+        System.out.println("|2 - Seus pedidos");
+        System.out.println("|3 - Sair");
+        System.out.println("|---------------------------------------|");
     }
 
     private static void realizarPedido(Cliente cliente) {
@@ -248,9 +252,9 @@ public class Main {
         List<Produto> listaProdutos = companhia.getListaProdutosDisponiveis();
 
         listarProdutosDisponiveis();
-        System.out.println("Código do produto");
+        System.out.print("|Código do produto: ");
         int codigo = scanner.nextInt();
-        System.out.println("Quantidade");
+        System.out.print("|Quantidade: ");
         int quantidade = scanner.nextInt();
 
         if (listaProdutos.size() >= codigo && codigo > 0 && quantidade > 0) {
@@ -266,9 +270,9 @@ public class Main {
         List<Produto> listaProdutos = companhia.getListaProdutosDisponiveis();
 
         for (int i = 0; i < listaProdutos.size(); i++) {
-            System.out.println((i + 1) + " - " + listaProdutos.get(i).getNome());
-            System.out.println("Marca: " + listaProdutos.get(i).getMarca());
-            System.out.println("Valor: " + listaProdutos.get(i).getValor());
+            System.out.println("|" + (i + 1) + " - " + listaProdutos.get(i).getNome());
+            System.out.println("|Marca: " + listaProdutos.get(i).getMarca());
+            System.out.println("|Valor: " + listaProdutos.get(i).getValor());
         }
     }
 
@@ -282,11 +286,13 @@ public class Main {
     }
 
     private static void menuRealizarPedido() {
-        System.out.println("---------------------------------------");
-        System.out.println("     Bem Vindo ao menu de Pedidos     ");
-        System.out.println("\n\n1 - Adicionar item ao pedido");
-        System.out.println("2 - Finalizar pedido");
-        System.out.println("3 - Sair");
+        System.out.println("|--------------------------------------|");
+        System.out.println("|     Bem Vindo ao menu de Pedidos     |");
+        System.out.println("|--------------------------------------|");
+        System.out.println("|1 - Adicionar item ao pedido");
+        System.out.println("|2 - Finalizar pedido");
+        System.out.println("|3 - Sair");
+        System.out.println("|--------------------------------------|");
     }
 
     private static void imprimirPedidos(Cliente cliente) {
