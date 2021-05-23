@@ -8,6 +8,7 @@ public class Main {
     private static Scanner scanner = new Scanner(System.in);
     private static List<Cliente> listaClientes = new ArrayList<>();
     private static Companhia companhia = new Companhia("UsGuri", "9999999", "ADMIN", "ADMIN");
+    private static Pedido pedidoMomentaneo = new Pedido();
 
     private static int menuPageController = 0;
     private static int clientePageController = 0;
@@ -21,15 +22,20 @@ public class Main {
             menuPageController = scanner.nextInt();
 
             switch (menuPageController) {
-                case 1: cadastrarCliente();
+                case 1:
+                    cadastrarCliente();
                     break;
-                case 2: loginAdmin();
+                case 2:
+                    loginAdmin();
                     break;
-                case 3: loginCliente();
+                case 3:
+                    loginCliente();
                     break;
-                case 4: System.out.println("Obrigado por usar nosso programa 😍🥰");
+                case 4:
+                    System.out.println("Obrigado por usar nosso programa 😍🥰");
                     break;
-                default: System.out.println("Selecione um menu existente 😀");
+                default:
+                    System.out.println("Selecione um menu existente 😀");
             }
         }
     }
@@ -63,14 +69,14 @@ public class Main {
     }
 
     private static void loginAdmin() throws IOException {
-       Companhia companhia = adminLogado();
-       if (Objects.nonNull(companhia)) {
-           gerenciarAdmin(companhia);
-       } else {
-           System.out.println("|-------------------------------------|");
-           System.out.println("|      Não foí possível acessar!      |");
-           System.out.println("|-------------------------------------|");
-       }
+        Companhia companhia = adminLogado();
+        if (Objects.nonNull(companhia)) {
+            gerenciarAdmin(companhia);
+        } else {
+            System.out.println("|-------------------------------------|");
+            System.out.println("|      Não foí possível acessar!      |");
+            System.out.println("|-------------------------------------|");
+        }
     }
 
     private static Companhia adminLogado() {
@@ -94,13 +100,17 @@ public class Main {
             menuAdmin();
             adminPageController = scanner.nextInt();
             switch (adminPageController) {
-                case 1: visualizarPedidosCompanhia();
+                case 1:
+                    visualizarPedidosCompanhia();
                     break;
-                case 2: finalizarPedidoMaisRecente();
+                case 2:
+                    finalizarPedidoMaisRecente();
                     break;
-                case 3: System.out.println("Obrigado por usar nosso programa 😍🥰");
+                case 3:
+                    System.out.println("Obrigado por usar nosso programa 😍🥰");
                     break;
-                default: System.out.println("Selecione um menu existente 😀");
+                default:
+                    System.out.println("Selecione um menu existente 😀");
             }
         }
     }
@@ -119,10 +129,10 @@ public class Main {
     private static void visualizarPedidosCompanhia() {
         if (!companhia.getListaPedidosCompanhia().isEmpty()) {
             List<Pedido> listaPedido = companhia.getListaPedidosCompanhia();
-            for (int i = 1; i <= listaPedido.size(); i++) {
+            for (int i = 0; i < listaPedido.size(); i++) {
                 Cliente cliente = listaPedido.get(i).getCliente();
                 System.out.println("|-------------------------------------|");
-                System.out.println("|Pedido: " + i);
+                System.out.println("|Pedido: " + i + 1);
                 System.out.println("|Cliente: " + cliente.getNome());
                 System.out.println("|-------------------------------------|");
                 List<ItemPedido> listaItemPedido = listaPedido.get(i).getListaItemPedido();
@@ -160,27 +170,33 @@ public class Main {
             System.out.println("|-------------------------------------|");
         }
     }
+
     private static void loginCliente() {
         Optional<Cliente> clienteLogado = clienteLogado();
 
         if (clienteLogado.isPresent()) {
-            while(clientePageController != 3) {
+            while (clientePageController != 3) {
                 menuDoCliente();
                 clientePageController = scanner.nextInt();
                 switch (clientePageController) {
-                    case 1: realizarPedido(clienteLogado.get());
+                    case 1:
+                        realizarPedido(clienteLogado.get());
                         break;
-                    case 2: imprimirPedidos(clienteLogado.get());
+                    case 2:
+                        imprimirPedidos(clienteLogado.get());
                         break;
-                    case 3: System.out.println("Volte sempre!!");
+                    case 3:
+                        System.out.println("Volte sempre!!");
                         break;
-                    default: System.out.println("Selecione um menu existente 😀");
+                    default:
+                        System.out.println("Selecione um menu existente 😀");
                         break;
                 }
             }
         } else {
             System.out.println("Email/Senha está errado!");
         }
+        clientePageController = 0;
     }
 
     private static Optional<Cliente> clienteLogado() {
@@ -196,10 +212,6 @@ public class Main {
                 .findFirst();
     }
 
-    private static void listaDePedidos() {
-
-    }
-
     private static void menuDoCliente() {
         System.out.println("---------------------------------------");
         System.out.println("     Bem Vindo ao menu do Cliente      ");
@@ -209,46 +221,72 @@ public class Main {
     }
 
     private static void realizarPedido(Cliente cliente) {
-        while(pedidoClientePageController != 2) {
+        while (pedidoClientePageController != 3) {
             menuRealizarPedido();
             pedidoClientePageController = scanner.nextInt();
             switch (pedidoClientePageController) {
-                case 1: selecionarProdutosPedido(cliente);
+                case 1:
+                    selecionarProdutosPedido(cliente);
                     break;
-                case 2: System.out.println("Volte sempre!!");
+                case 2:
+                    finalizarPedidoByCliente(cliente);
                     break;
-                default: System.out.println("Selecione um menu existente 😀");
+                case 3:
+                    System.out.println("Volte sempre!!");
+                    break;
+                default:
+                    System.out.println("Selecione um menu existente 😀");
                     break;
             }
+            if (pedidoClientePageController == 2)
+                break;
         }
+        pedidoClientePageController = 0;
     }
 
     private static void selecionarProdutosPedido(Cliente cliente) {
+        List<Produto> listaProdutos = companhia.getListaProdutosDisponiveis();
+
         listarProdutosDisponiveis();
+        System.out.println("Código do produto");
+        int codigo = scanner.nextInt();
+        System.out.println("Quantidade");
+        int quantidade = scanner.nextInt();
+
+        if (listaProdutos.size() >= codigo && codigo > 0 && quantidade > 0) {
+            ItemPedido newItemPedido = new ItemPedido(listaProdutos.get(codigo - 1), quantidade);
+            pedidoMomentaneo.getListaItemPedido().add(newItemPedido);
+        } else {
+            System.out.println("Produto não existe ou quantidade inválida");
+        }
+
     }
 
     private static void listarProdutosDisponiveis() {
-        Produto notebook = new Produto(1000, "DELL", "Notebook");
-        Produto tv = new Produto(5000, "LG", "Smart TV");
+        List<Produto> listaProdutos = companhia.getListaProdutosDisponiveis();
 
-        List<Produto> listaProdutos = new ArrayList<>();
-
-        listaProdutos.add(notebook);
-        listaProdutos.add(tv);
-
-        for (int i = 1; i <= listaProdutos.size(); i++) {
-            System.out.println(i + " - " + listaProdutos.get(i).getNome());
+        for (int i = 0; i < listaProdutos.size(); i++) {
+            System.out.println((i + 1) + " - " + listaProdutos.get(i).getNome());
             System.out.println("Marca: " + listaProdutos.get(i).getMarca());
             System.out.println("Valor: " + listaProdutos.get(i).getValor());
         }
+    }
 
+    private static void finalizarPedidoByCliente(Cliente cliente) {
+        pedidoMomentaneo.setCliente(cliente);
+        pedidoMomentaneo.setValorTotal();
+        companhia.getListaPedidosCompanhia().addLast(pedidoMomentaneo);
+        cliente.getListaPedidoCliente().add(pedidoMomentaneo);
+
+        pedidoMomentaneo = new Pedido();
     }
 
     private static void menuRealizarPedido() {
         System.out.println("---------------------------------------");
         System.out.println("     Bem Vindo ao menu de Pedidos     ");
-        System.out.println("\n\n1 - Selecionar Produtos");
-        System.out.println("2 - Sair");
+        System.out.println("\n\n1 - Adicionar item ao pedido");
+        System.out.println("2 - Finalizar pedido");
+        System.out.println("3 - Sair");
     }
 
     private static void imprimirPedidos(Cliente cliente) {

@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Pedido {
@@ -14,6 +15,10 @@ public class Pedido {
         this.cliente = cliente;
         this.listaItemPedido = listaItemPedido;
         this.valorTotal = valorTotal;
+    }
+
+    public Pedido() {
+        this.listaItemPedido = new ArrayList<>();
     }
 
     public Cliente getCliente() {
@@ -36,7 +41,12 @@ public class Pedido {
         return valorTotal;
     }
 
-    public void setValorTotal(Double valorTotal) {
-        this.valorTotal = valorTotal;
+
+    public void setValorTotal() {
+        this.valorTotal = this.listaItemPedido
+                .stream()
+                .mapToDouble(itemPedido ->
+                        itemPedido.getQuantidade() * itemPedido.getProduto().getValor())
+                .sum();
     }
 }

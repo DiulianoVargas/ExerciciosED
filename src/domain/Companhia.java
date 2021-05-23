@@ -1,6 +1,8 @@
 package domain;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Companhia {
 
@@ -14,6 +16,8 @@ public class Companhia {
 
     private LinkedList<Pedido> listaPedidosCompanhia;
 
+    private List<Produto> listaProdutosDisponiveis;
+
     public Companhia() {
     }
 
@@ -23,6 +27,7 @@ public class Companhia {
         this.login = login;
         this.senha = senha;
         this.listaPedidosCompanhia = new LinkedList<>();
+        this.listaProdutosDisponiveis = listarProdutosDisponiveis();
     }
 
     public String getNome() {
@@ -63,5 +68,21 @@ public class Companhia {
 
     public void setListaPedidosCompanhia(LinkedList<Pedido> listaPedidosCompanhia) {
         this.listaPedidosCompanhia = listaPedidosCompanhia;
+    }
+
+    public List<Produto> getListaProdutosDisponiveis() {
+        return listaProdutosDisponiveis;
+    }
+
+    private List<Produto> listarProdutosDisponiveis() {
+        Produto notebook = new Produto(1000, "DELL", "Notebook");
+        Produto tv = new Produto(5000, "LG", "Smart TV");
+
+        List<Produto> listaProdutos = new ArrayList<>();
+
+        listaProdutos.add(notebook);
+        listaProdutos.add(tv);
+
+        return listaProdutos;
     }
 }
