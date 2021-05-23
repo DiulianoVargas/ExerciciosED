@@ -14,9 +14,8 @@ public class Main {
     private static int clientePageController = 0;
     private static int adminPageController = 0;
     private static int pedidoClientePageController = 0;
-    private static int produtoPedidoClientePageController = 0;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args) {
         while (menuPageController != 4) {
             menuInicial();
             menuPageController = scanner.nextInt();
@@ -32,10 +31,10 @@ public class Main {
                     loginCliente();
                     break;
                 case 4:
-                    System.out.println("Obrigado por usar nosso programa 😍🥰");
+                    mensagemSair();
                     break;
                 default:
-                    System.out.println("Selecione um menu existente 😀");
+                    mensagemOpcaoInvalida();
             }
         }
     }
@@ -66,12 +65,18 @@ public class Main {
         String senha = scanner.next();
 
         listaClientes.add(new Cliente(nome, email, senha));
+
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|         Cadastro Realizado          |");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
     }
 
-    private static void loginAdmin() throws IOException {
+    private static void loginAdmin() {
         Companhia companhia = adminLogado();
         if (Objects.nonNull(companhia)) {
-            gerenciarAdmin(companhia);
+            gerenciarAdmin();
         } else {
             System.out.println("|-------------------------------------|");
             System.out.println("|      Não foí possível acessar!      |");
@@ -95,7 +100,7 @@ public class Main {
         return null;
     }
 
-    private static void gerenciarAdmin(Companhia companhia) throws IOException {
+    private static void gerenciarAdmin() {
         while (adminPageController != 3) {
             menuAdmin();
             adminPageController = scanner.nextInt();
@@ -107,10 +112,10 @@ public class Main {
                     finalizarPedidoMaisRecente();
                     break;
                 case 3:
-                    System.out.println("Obrigado por usar nosso programa 😍🥰");
+                    mensagemSair();
                     break;
                 default:
-                    System.out.println("Selecione um menu existente 😀");
+                    mensagemOpcaoInvalida();
             }
         }
     }
@@ -176,7 +181,7 @@ public class Main {
 
         if (clienteLogado.isPresent()) {
             while (clientePageController != 3) {
-                menuDoCliente();
+                menuDoCliente(clienteLogado.get());
                 clientePageController = scanner.nextInt();
                 switch (clientePageController) {
                     case 1:
@@ -186,15 +191,15 @@ public class Main {
                         imprimirPedidos(clienteLogado.get());
                         break;
                     case 3:
-                        System.out.println("Volte sempre!!");
+                        mensagemSair();
                         break;
                     default:
-                        System.out.println("Selecione um menu existente 😀");
+                        mensagemOpcaoInvalida();
                         break;
                 }
             }
         } else {
-            System.out.println("Email/Senha está errado!");
+            loginInvalido();
         }
         clientePageController = 0;
     }
@@ -214,14 +219,15 @@ public class Main {
                 .findFirst();
     }
 
-    private static void menuDoCliente() {
+    private static void menuDoCliente(Cliente cliente) {
         System.out.println("|---------------------------------------|");
-        System.out.println("|     Bem Vindo ao menu do Cliente      |");
+        System.out.println("|             Bem Vindo "+ cliente.getNome() + "         |");
         System.out.println("|---------------------------------------|");
         System.out.println("|1 - Fazer um Pedido");
         System.out.println("|2 - Seus pedidos");
         System.out.println("|3 - Sair");
         System.out.println("|---------------------------------------|");
+        System.out.print("|valor: ");
     }
 
     private static void realizarPedido(Cliente cliente) {
@@ -230,16 +236,16 @@ public class Main {
             pedidoClientePageController = scanner.nextInt();
             switch (pedidoClientePageController) {
                 case 1:
-                    selecionarProdutosPedido(cliente);
+                    selecionarProdutosPedido();
                     break;
                 case 2:
                     finalizarPedidoByCliente(cliente);
                     break;
                 case 3:
-                    System.out.println("Volte sempre!!");
+                    mensagemSair();
                     break;
                 default:
-                    System.out.println("Selecione um menu existente 😀");
+                    mensagemOpcaoInvalida();
                     break;
             }
             if (pedidoClientePageController == 2)
@@ -248,10 +254,11 @@ public class Main {
         pedidoClientePageController = 0;
     }
 
-    private static void selecionarProdutosPedido(Cliente cliente) {
+    private static void selecionarProdutosPedido() {
         List<Produto> listaProdutos = companhia.getListaProdutosDisponiveis();
 
         listarProdutosDisponiveis();
+        System.out.println();
         System.out.print("|Código do produto: ");
         int codigo = scanner.nextInt();
         System.out.print("|Quantidade: ");
@@ -261,15 +268,15 @@ public class Main {
             ItemPedido newItemPedido = new ItemPedido(listaProdutos.get(codigo - 1), quantidade);
             pedidoMomentaneo.getListaItemPedido().add(newItemPedido);
         } else {
-            System.out.println("Produto não existe ou quantidade inválida");
+            produtoInvalido();
         }
-
     }
 
     private static void listarProdutosDisponiveis() {
         List<Produto> listaProdutos = companhia.getListaProdutosDisponiveis();
 
         for (int i = 0; i < listaProdutos.size(); i++) {
+            System.out.println("|--------------------------------------|");
             System.out.println("|" + (i + 1) + " - " + listaProdutos.get(i).getNome());
             System.out.println("|Marca: " + listaProdutos.get(i).getMarca());
             System.out.println("|Valor: " + listaProdutos.get(i).getValor());
@@ -277,12 +284,17 @@ public class Main {
     }
 
     private static void finalizarPedidoByCliente(Cliente cliente) {
-        pedidoMomentaneo.setCliente(cliente);
-        pedidoMomentaneo.setValorTotal();
-        companhia.getListaPedidosCompanhia().addLast(pedidoMomentaneo);
-        cliente.getListaPedidoCliente().add(pedidoMomentaneo);
+        if (!pedidoMomentaneo.getListaItemPedido().isEmpty()) {
+            pedidoMomentaneo.setCliente(cliente);
+            pedidoMomentaneo.setValorTotal();
+            companhia.getListaPedidosCompanhia().addLast(pedidoMomentaneo);
+            cliente.getListaPedidoCliente().add(pedidoMomentaneo);
+            pedidoMomentaneo = new Pedido();
+        } else {
+            naoPossuiItensNoCarrinho();
+            pedidoClientePageController = 0;
+        }
 
-        pedidoMomentaneo = new Pedido();
     }
 
     private static void menuRealizarPedido() {
@@ -293,13 +305,83 @@ public class Main {
         System.out.println("|2 - Finalizar pedido");
         System.out.println("|3 - Sair");
         System.out.println("|--------------------------------------|");
+        System.out.print("|valor: ");
     }
 
     private static void imprimirPedidos(Cliente cliente) {
         if (cliente.getListaPedidoCliente().isEmpty()) {
-            System.out.println("Você ainda não possui pedidos!");
+            semPedidos();
         } else {
-            System.out.println(cliente.getListaPedidoCliente());
+            List<Pedido> listaPedido = cliente.getListaPedidoCliente();
+            for (int i = 0; i < listaPedido.size(); i++) {
+                System.out.println("|-------------------------------------|");
+                System.out.println("|Pedido: " + i + 1);
+                System.out.println("|-------------------------------------|");
+                List<ItemPedido> listaItemPedido = listaPedido.get(i).getListaItemPedido();
+                for (int j = 0; j < listaItemPedido.size(); j++) {
+                    ItemPedido itemPedido = listaItemPedido.get(j);
+                    System.out.println("|-------------------------------------|");
+                    System.out.println("|               Produtos              |");
+                    System.out.println("|-------------------------------------|");
+                    System.out.println("|Nome: " + itemPedido.getProduto().getNome());
+                    System.out.println("|Marca: " + itemPedido.getProduto().getMarca());
+                    System.out.println("|Quantidade: " + itemPedido.getQuantidade());
+                }
+                System.out.println("|-------------------------------------|");
+                System.out.println("|            Valor Total              |");
+                System.out.println("|-------------------------------------|");
+                System.out.println("|Valor: R$" + listaPedido.get(i).getValorTotal());
+                System.out.println();
+            }
         }
+    }
+
+    private static void mensagemSair() {
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|Obrigado por usar nosso programa 😍🥰|");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
+    }
+
+    private static void mensagemOpcaoInvalida() {
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|    Selecione um menu existente 😀   |");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
+    }
+
+    private static void loginInvalido() {
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|       Email/Senha está errado!      |");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
+    }
+
+    private static void semPedidos() {
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|    Você ainda não possui pedidos!   |");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
+    }
+
+    private static void produtoInvalido() {
+        System.out.println("");
+        System.out.println();
+        System.out.println("|-------------------------------------------|");
+        System.out.println("| Produto não existe ou quantidade inválida |");
+        System.out.println("|-------------------------------------------|");
+        System.out.println();
+    }
+
+    private static void naoPossuiItensNoCarrinho() {
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|   Você não possui itens no carrinho |");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
     }
 }
