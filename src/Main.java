@@ -61,6 +61,7 @@ public class Main {
 
         System.out.print("|E-mail: ");
         String email = scanner.next();
+
         System.out.print("|Senha: ");
         String senha = scanner.next();
 
@@ -88,6 +89,7 @@ public class Main {
         System.out.println("|-------------------------------------|");
         System.out.println("|          Área Admin (Logar)         |");
         System.out.println("|-------------------------------------|");
+
         System.out.print("|Login: ");
         String email = scanner.next();
 
@@ -158,22 +160,16 @@ public class Main {
             }
 
         } else {
-            System.out.println("|-------------------------------------|");
-            System.out.println("|       Sem pedidos no momento!       |");
-            System.out.println("|-------------------------------------|");
+            semPedidos();
         }
     }
 
     private static void finalizarPedidoMaisRecente() {
         if (!companhia.getListaPedidosCompanhia().isEmpty()) {
             companhia.getListaPedidosCompanhia().removeFirst();
-            System.out.println("|-------------------------------------|");
-            System.out.println("|          Pedido Finalizado          |");
-            System.out.println("|-------------------------------------|");
+            pedidoFinalizado();
         } else {
-            System.out.println("|-------------------------------------|");
-            System.out.println("|       Sem pedidos no momento!       |");
-            System.out.println("|-------------------------------------|");
+            semPedidos();
         }
     }
 
@@ -315,9 +311,9 @@ public class Main {
         } else {
             List<Pedido> listaPedido = cliente.getListaPedidoCliente();
             for (int i = 0; i < listaPedido.size(); i++) {
+                System.out.println();
                 System.out.println("|-------------------------------------|");
                 System.out.println("|Pedido: " + i + 1);
-                System.out.println("|-------------------------------------|");
                 List<ItemPedido> listaItemPedido = listaPedido.get(i).getListaItemPedido();
                 for (int j = 0; j < listaItemPedido.size(); j++) {
                     ItemPedido itemPedido = listaItemPedido.get(j);
@@ -364,13 +360,12 @@ public class Main {
     private static void semPedidos() {
         System.out.println();
         System.out.println("|-------------------------------------|");
-        System.out.println("|    Você ainda não possui pedidos!   |");
+        System.out.println("|       Sem pedidos no momento!       |");
         System.out.println("|-------------------------------------|");
         System.out.println();
     }
 
     private static void produtoInvalido() {
-        System.out.println("");
         System.out.println();
         System.out.println("|-------------------------------------------|");
         System.out.println("| Produto não existe ou quantidade inválida |");
@@ -382,6 +377,14 @@ public class Main {
         System.out.println();
         System.out.println("|-------------------------------------|");
         System.out.println("|   Você não possui itens no carrinho |");
+        System.out.println("|-------------------------------------|");
+        System.out.println();
+    }
+
+    private static void pedidoFinalizado() {
+        System.out.println();
+        System.out.println("|-------------------------------------|");
+        System.out.println("|          Pedido Finalizado          |");
         System.out.println("|-------------------------------------|");
         System.out.println();
     }
